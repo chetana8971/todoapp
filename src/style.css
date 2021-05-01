@@ -73,21 +73,25 @@ h1 {
   box-sizing: border-box;
   background-color: #e8eaed;
   height: 3rem;
+  width: 32rem;
 }
-.item_Input {
-  background: none;
-  outline: #0080ff;
+.itemInput {
+  /* background: none; 
+  outline: #0080ff; */
   color: #111;
   border: none;
-  width: 20rem;
+  width: 12rem;
   font-size: 1.2rem;
-  margin-right: -22%;
+  margin-right: 8%;
+  margin-left: 8%;
 }
 .checkBox {
-  margin-right: 10%;
   width: 9%;
   height: 20px;
   margin-top: 0.2rem;
+}
+.checkboxClicked {
+  text-decoration: line-through;
 }
 
 .editButton {
