@@ -2,8 +2,8 @@ const addButton = document.querySelector(".addButton");
 const input = document.querySelector(".input");
 const container = document.querySelector(".container");
 
-
-  createDiv=(textInput)=>{
+(function createTodoApplication() {
+  function createDiv(textInput) {
     const input = document.createElement("input");
     input.value = textInput;
     input.disabled = true;
@@ -26,9 +26,13 @@ const container = document.querySelector(".container");
     checkBox.setAttribute("type", "checkbox");
     checkBox.classList.add("checkBox");
 
-    checkBox.addEventListener("click", ()=> input.classList.add('itemInput','checkboxClicked'))
-    editButton.addEventListener("click", () => this.edit(input, editButton));
-    removeButton.addEventListener("click", () => this.remove(itemContainer));
+    checkBox.addEventListener("change", function () {
+      input.style.textDecoration = checkBox.checked ? "line-through" : "none";
+    });
+
+    editButton.addEventListener("click", () => edit(input, editButton));
+
+    removeButton.addEventListener("click", () => remove(itemContainer));
 
     itemContainer.appendChild(checkBox);
     itemContainer.appendChild(input);
@@ -37,7 +41,7 @@ const container = document.querySelector(".container");
     container.appendChild(itemContainer);
   }
 
-  edit=(input, editButton) =>{
+  function edit(input, editButton) {
     input.disabled = !input.disabled;
     if (input.disabled) {
       editButton.innerHTML = "Edit";
@@ -46,99 +50,24 @@ const container = document.querySelector(".container");
     }
   }
 
-  remove=(item)=>{
+  function remove(item) {
     container.removeChild(item);
   }
 
-function addNewTodo() {
-  if (input.value !== "") {
-    createDiv(input.value);
-    input.value = "";
+  function check() {
+    document.getElementById("checkboxClicked").checked = true;
   }
-}
 
-addButton.addEventListener("click", addNewTodo);
+  function uncheck() {
+    document.getElementById("checkboxClicked").checked = false;
+  }
 
+  function addNewTodo() {
+    if (input.value !== "") {
+      createDiv(input.value);
+      input.value = "";
+    }
+  }
 
-
-
-
-// function addNewTodo(event) {
-//   event.preventDefault();
-//   const input = document.createElement('');
-//   todoDiv.classList.add("todo");
-//   const addNewTodo = document.createElement('li');
-//   newItem.innerText =" hey";
-//   newItem.classList.add('input');
-//   todoDiv.appendChild(newItem);
-// }
-
-
-
-
-
-// class Model {
-//   constructor() {
-//     const addButton = document.querySelector(".addButton");
-//     const input = document.querySelector(".input",".textInput");
-//     const container = document.querySelector(".container");
-//   }
-//   addNewTodo(){
-//     if (input.value !== "") {
-//       create.newItem(input.value);
-//       input.value = "";
-//     }
-//   }
-
-//   edit(input, editButton) {
-//     input.disabled = !input.disabled;
-//     if (input.disabled) {
-//       editButton.innerHTML = "Edit";
-//     } else {
-//       editButton.innerHTML = "Submit";
-//     }
-//   }
-//   remove(item) {
-//     container.removeChild(item);
-//   }
-
-//   checkBox() {
-//     if (item.classList[0] === "completed") {
-//       const addNewTodo = newItem.checkBox;
-//       addNewTodo.classList.toggle("completed");
-//     }
-//   }
-// }
-
-// class View {
-//   constructor() {
-//     const input = document.createElement("input");
-//     input.classList.add("newItem");
-
-//     const itemContainer = document.createElement("textInput");
-//     itemContainer.classList.add("newItem");
-
-//     const editButton = document.createElement("button");
-//     editButton.setAttribute("id", "editButton");
-//     editButton.innerHTML = "Edit";
-//     editButton.classList.add("editButton");
-
-//     const removeButton = document.createElement("button");
-//     removeButton.innerHTML = "Remove";
-//     removeButton.classList.add("removeButton");
-
-//     const checkBox = document.createElement("input");
-//     checkBox.setAttribute("type", "checkbox");
-//     checkBox.classList.add("checkBox");
-//   }
-// }
-// class Controller {
-//   constructor(model, view) {
-//     this.model = model;
-//     this.view = view;
-//   }
-// }
-
-
-
-// const app = new Controller(new Model(), new View());
+  addButton.addEventListener("click", addNewTodo);
+})();
