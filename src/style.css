@@ -32,7 +32,7 @@ h1 {
   text-align: center;
 }
 
-.input_div .input {
+.input_div .inputbox {
   padding: 0.5rem 1rem;
   height: 3rem;
   outline: #111;
@@ -72,19 +72,21 @@ h1 {
   margin-bottom: 1.5rem;
   box-sizing: border-box;
   background-color: #e8eaed;
-  height: 3rem;
+  display: flex;
+  align-items: center;
   width: 32rem;
 }
 .itemInput {
-  /* background: none; 
-  outline: #0080ff; */
   color: #111;
   border: none;
   width: 12rem;
   font-size: 1.2rem;
   margin-right: 8%;
   margin-left: 8%;
+  visibility: visible;
+  overflow: auto;
 }
+
 .checkBox {
   width: 9%;
   height: 20px;
@@ -113,4 +115,8 @@ h1 {
   outline: none;
   color: #e00;
   border: none;
+}
+
+.checkEdit {
+  display: none;
 }

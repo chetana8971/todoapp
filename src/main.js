@@ -1,73 +1,77 @@
-const addButton = document.querySelector(".addButton");
-const input = document.querySelector(".input");
+const globalInput = document.getElementById("box");
 const container = document.querySelector(".container");
+const addButton = document.querySelector(".addButton");
 
-(function createTodoApplication() {
-  function createDiv(textInput) {
-    const input = document.createElement("input");
-    input.value = textInput;
-    input.disabled = true;
-    input.classList.add("itemInput");
-    input.type = "text";
+class todoList {
+  constructor() {
+    addButton.addEventListener("click", this.addNewTodo);
+  }
+  addNewTodo() {
+    if (globalInput.value !== "") {
+      new todoItem(globalInput.value);
+      globalInput.value = "";
+    }
+  }
+}
+new todoList();
 
-    const itemContainer = document.createElement("div");
-    itemContainer.classList.add("item");
+class todoItem {
+  constructor(textInput) {
+    this.input = document.createElement("textArea");
+    this.input.value = textInput;
+    this.input.classList.add("itemInput");
 
-    const editButton = document.createElement("button");
-    editButton.setAttribute("id", "editButton");
-    editButton.innerHTML = "Edit";
-    editButton.classList.add("editButton");
+    this.itemContainer = document.createElement("div");
+    this.itemContainer.classList.add("item");
 
-    const removeButton = document.createElement("button");
-    removeButton.innerHTML = "Remove";
-    removeButton.classList.add("removeButton");
+    this.editButton = document.createElement("button");
+    this.editButton.setAttribute("id", "editButton");
+    this.editButton.innerHTML = "Edit";
+    this.editButton.classList.add("editButton");
 
-    const checkBox = document.createElement("input");
-    checkBox.setAttribute("type", "checkbox");
-    checkBox.classList.add("checkBox");
+    this.removeButton = document.createElement("button");
+    this.removeButton.innerHTML = "Remove";
+    this.removeButton.classList.add("removeButton");
 
-    checkBox.addEventListener("change", function () {
-      input.style.textDecoration = checkBox.checked ? "line-through" : "none";
-    });
+    this.checkBox = document.createElement("input");
+    this.checkBox.type = "checkbox";
+    this.checkBox.classList.add("checkBox");
 
-    editButton.addEventListener("click", () => edit(input, editButton));
+    this.checkBox.addEventListener("change", this.complete);
+    this.editButton.addEventListener("click", this.edit);
+    this.removeButton.addEventListener("click", this.remove);
 
-    removeButton.addEventListener("click", () => remove(itemContainer));
-
-    itemContainer.appendChild(checkBox);
-    itemContainer.appendChild(input);
-    itemContainer.appendChild(editButton);
-    itemContainer.appendChild(removeButton);
-    container.appendChild(itemContainer);
+    this.itemContainer.appendChild(this.checkBox);
+    this.itemContainer.appendChild(this.input);
+    this.itemContainer.appendChild(this.editButton);
+    this.itemContainer.appendChild(this.removeButton);
+    container.appendChild(this.itemContainer);
   }
 
-  function edit(input, editButton) {
-    input.disabled = !input.disabled;
-    if (input.disabled) {
-      editButton.innerHTML = "Edit";
+  edit = () => {
+    this.input.disabled = !this.input.disabled;
+    if (this.input.disabled) {
+      this.editButton.innerHTML = "Edit";
+
+      this.checkBox.classList.remove("checkEdit");
     } else {
-      editButton.innerHTML = "Submit";
+      this.checkBox.classList.add("checkEdit");
+      this.editButton.innerHTML = "Submit";
     }
-  }
+  };
 
-  function remove(item) {
-    container.removeChild(item);
-  }
+  remove = () => {
+    container.removeChild(this.itemContainer);
+  };
 
-  function check() {
-    document.getElementById("checkboxClicked").checked = true;
-  }
-
-  function uncheck() {
-    document.getElementById("checkboxClicked").checked = false;
-  }
-
-  function addNewTodo() {
-    if (input.value !== "") {
-      createDiv(input.value);
-      input.value = "";
+  complete = () => {
+    if (this.checkBox.checked) {
+      this.editButton.classList.add("checkEdit");
+    } else {
+      this.editButton.classList.remove("checkEdit");
     }
-  }
-
-  addButton.addEventListener("click", addNewTodo);
-})();
+    this.input.style.textDecoration = this.checkBox.checked
+      ? "line-through"
+      : "none";
+  };
+}
