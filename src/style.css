@@ -120,3 +120,10 @@ h1 {
 .checkEdit {
   display: none;
 }
+
+.textarea {
+  width:250px;
+  min-height:50px;
+  height:auto;
+  border:2px solid rgba(63,63,63,1);
+}

@@ -17,10 +17,11 @@ new todoList();
 
 class todoItem {
   constructor(textInput) {
-    this.input = document.createElement("textArea");
-    this.input.value = textInput;
-    this.input.classList.add("itemInput");
-
+    this.input = document.createElement("div");
+    this.input.setAttribute("contenteditable", "true");
+    this.input.innerHTML = textInput;    
+    this.input.classList.add("textarea");
+  
     this.itemContainer = document.createElement("div");
     this.itemContainer.classList.add("item");
 
