@@ -1,7 +1,7 @@
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
+  box-sizing: border-x;
 }
 
 body {
@@ -105,6 +105,8 @@ h1 {
   color: #0080ff;
   border: none;
   width: 4rem;
+  position: absolute;
+  right: 37%;
 }
 
 .removeButton {
@@ -115,15 +117,17 @@ h1 {
   outline: none;
   color: #e00;
   border: none;
+  position: absolute;
+  left: 63%;
 }
 
-.checkEdit {
+.hideContent {
   display: none;
 }
 
 .textarea {
-  width:250px;
-  min-height:50px;
-  height:auto;
-  border:2px solid rgba(63,63,63,1);
+  width: 250px;
+  min-height: 50px;
+  height: auto;
+  border: 2px solid rgba(63, 63, 63, 1);
 }
