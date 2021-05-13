@@ -20,19 +20,18 @@ h1 {
 }
 
 .styling {
-  font-weight: 800;
   color: #111;
   font-weight: bold;
   left: 10%;
 }
-.input_div {
+.inputDiv {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
 
-.input_div .inputbox {
+.inputDiv .inputbox {
   padding: 0.5rem 1rem;
   height: 3rem;
   outline: #111;
@@ -89,7 +88,7 @@ li {
   overflow: auto;
 }
 
-.checkBox {
+.checkBoxClass {
   width: 9%;
   height: 20px;
   margin-top: 0.2rem;
@@ -101,7 +100,7 @@ li {
   text-decoration: line-through;
 }
 
-.editButton {
+.editButtonClass {
   font-size: 1.3rem;
   margin: 0 0.5rem;
   font-family: "Hind" sans-serif;
@@ -114,7 +113,7 @@ li {
   right: 22%;
 }
 
-.removeButton {
+.removeButtonClass {
   font-size: 1.3rem;
   margin: 0 0.5rem;
   font-family: "Hind" sans-serif;
@@ -130,7 +129,7 @@ li {
   display: none;
 }
 
-.textarea {
+.textContainer {
   width: 250px;
   min-height: 50px;
   height: auto;

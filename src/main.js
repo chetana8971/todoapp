@@ -1,3 +1,4 @@
+//@class Model, Manages the data of the application
 class Model {
   constructor() {
     this.input = document.querySelector(".inputbox");
@@ -7,12 +8,12 @@ class Model {
     this.ontodoListChanged = callback;
   }
 
+  //Initilize addNewTodo function here with new id.
   addNewTodo() {
     const uniqid = new Date().getTime();
     if (this.input.value !== "") {
       this.input.value;
       this.todoList.push({ uniqid, value: this.input.value });
-      console.log(this.todoList);
       this.input.value = "";
     }
     this._commit(this.todoList);
@@ -21,6 +22,8 @@ class Model {
     this.ontodoListChanged(todos);
   }
 
+  // Initialize the edit function, when we click on editButton it enables to edit inputbox & editButton automatically change to submit at the same time checkbox
+  // is disabled by using class hideContent.
   editButton(uniqid, _temporaryTodoText) {
     const input = document.getElementById("inputbox" + uniqid);
     const editButton = document.getElementById("editButton" + uniqid);
@@ -33,19 +36,18 @@ class Model {
     } else {
       editButton.innerHTML = "Edit";
       checkBox.classList.remove("hideContent");
-
       input.contentEditable = "false";
     }
   }
 
+  //Initilize the remove function where todos are removed from container
   removeButton = (uniqid) => {
-    console.log(uniqid);
     this.todoList = this.todoList.filter((todos) => todos.uniqid !== uniqid);
     this._commit(this.todoList);
   };
 
+  //Complete Function describes when checkbox is checked the text in inputbox is striked & editButton is hidden at the same time by using class hideContent.
   completeButton = (uniqid) => {
-    console.log(uniqid);
     const input = document.getElementById("inputbox" + uniqid);
     const editButton = document.getElementById("editButton" + uniqid);
     const checkBox = document.getElementById("checkBox" + uniqid);
@@ -59,6 +61,7 @@ class Model {
   };
 }
 
+//@class View, Visual representation of the model.
 class View {
   constructor() {
     this.input = document.createElement("input");
@@ -69,7 +72,6 @@ class View {
     this.container = document.querySelector(".container");
     this.todoList = document.createElement("ul", "todoList");
     this.todoList.classList.add("todoList");
-    this.input.name = "todos";
     this.input.disabled = true;
     this.container.append(this.todoList);
 
@@ -78,27 +80,26 @@ class View {
   }
 
   displayTodos(todos) {
-    console.log(todos);
     while (this.todoList.firstChild) {
       this.todoList.removeChild(this.todoList.firstChild);
     }
     for (let i = 0; i < todos.length; i++) {
-      this.createDiv(todos[i]);
+      this.createTodoItem(todos[i]);
     }
   }
 
-  createDiv(todos) {
-    console.log(todos);
+  //TodoItem  is used to create todoItem in DOM
+  createTodoItem(todos) {
     const uniqid = todos.uniqid;
     const inputbutton = document.createElement("div");
     inputbutton.setAttribute("contenteditable", "false");
     inputbutton.setAttribute("id", "inputbox" + uniqid);
     inputbutton.value = todos.value;
-    inputbutton.classList.add("textarea");
+    inputbutton.classList.add("textContainer");
     inputbutton.innerHTML = todos.value;
 
     const itemContainer = document.createElement("div");
-    itemContainer.classList.add("item");
+    itemContainer.classList.add("itemClass");
     itemContainer.setAttribute("id", "item" + uniqid);
     itemContainer.uniqid = uniqid;
 
@@ -106,19 +107,19 @@ class View {
     editButton.setAttribute("id", "editButton" + uniqid);
     editButton.uniqid = uniqid;
     editButton.innerHTML = "Edit";
-    editButton.classList.add("editButton");
+    editButton.classList.add("editButtonClass");
 
     const removeButton = document.createElement("button");
     removeButton.setAttribute("id", "removeButton" + uniqid);
     removeButton.uniqid = uniqid;
     removeButton.innerHTML = "Remove";
-    removeButton.classList.add("removeButton");
+    removeButton.classList.add("removeButtonClass");
 
     const checkBox = document.createElement("input");
     checkBox.setAttribute("id", "checkBox" + uniqid);
     checkBox.uniqid = uniqid;
     checkBox.type = "checkBox";
-    checkBox.classList.add("checkBox");
+    checkBox.classList.add("checkBoxClass");
 
     const li = document.createElement("li");
     li.id = "itemContainer" + uniqid;
@@ -133,7 +134,7 @@ class View {
 
   _initLocalListeners() {
     this.todoList.addEventListener("click", (event) => {
-      if (event.target.className == "editButton") {
+      if (event.target.className == "editButtonClass") {
         this._temporaryTodoText = event.target.innerText;
       }
     });
@@ -147,7 +148,6 @@ class View {
 
   bindeditButton(handler) {
     this.todoList.addEventListener("click", (event) => {
-      console.log("this.editButton");
       if (this._temporaryTodoText) {
         const uniqid = parseInt(event.target.uniqid);
         handler(uniqid, this._temporaryTodoText);
@@ -158,8 +158,7 @@ class View {
 
   bindremoveButton(handler) {
     this.todoList.addEventListener("click", (event) => {
-      console.log("this.removeButton");
-      if (event.target.className == "removeButton") {
+      if (event.target.className == "removeButtonClass") {
         const uniqid = parseInt(event.target.uniqid);
         handler(uniqid);
       }
@@ -168,19 +167,22 @@ class View {
 
   bindcompleteButton(handler) {
     this.todoList.addEventListener("change", (event) => {
-      console.log("this.completeButton");
-      if (event.target.className == "checkBox") {
+      if (event.target.className == "checkBoxClass") {
         const uniqid = parseInt(event.target.uniqid);
         handler(uniqid);
       }
     });
   }
 }
+
+//@class Controller, Links the user input and the view output.
+//@param model, @param view
 class Controller {
   constructor(model, view) {
     this.model = model;
     this.view = view;
 
+    // Explicit this binding
     this.model.bindtodoListChanged(this.ontodoListChanged);
     this.view.bindaddNewTodo(this.handleaddNewTodo);
     this.view.bindeditButton(this.handleeditButton);
