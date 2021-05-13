@@ -1,56 +1,47 @@
-const globalInput = document.getElementById("box");
-const container = document.querySelector(".container");
-const addButton = document.querySelector(".addButton");
-const editButton = document.querySelector(".editButton");
-const removeButton = document.querySelector(".removeButton");
-const checkBox = document.querySelector(".checkBox");
-
-class addEventListener {
+class EventListener {
   constructor() {
     document.addEventListener(
       "click",
       (e) => {
-        console.log(e.target);
-        if (this.hasClass(e.target, "editButton")) {
-          console.log(e.target);
-          this.edit(e);
-        } else if (this.hasClass(e.target, "removeButton")) {
-          console.log(e.target);
-          this.remove(e);
-        } else if (this.hasClass(e.target, "checkBox")) {
-          console.log(e.target);
-          this.complete(e);
+        switch (e.target.classList[0]) {
+          case "editButtonClass":
+            console.log(e.target);
+            this.edit(e);
+            break;
+          case "removeButtonClass":
+            console.log(e.target);
+            this.remove(e);
+            break;
+          case "checkBoxClass":
+            console.log(e.target);
+            this.complete(e);
+            break;
         }
       },
       false
     );
   }
-  hasClass = (elem, className) => {
-    return elem.classList.contains(className);
-  };
 
   edit = (e) => {
-    console.log(e);
     const uniqid = e.target.uniqid;
     console.log(uniqid);
     const input = document.getElementById("inputbox" + uniqid);
     const checkBox = document.getElementById("checkBox" + uniqid);
     const editButton = document.getElementById("editButton" + uniqid);
 
-    //input.disabled = !input.disabled;
     if (input.contentEditable == "false") {
-      editButton.innerHTML = "Edit";
-      checkBox.classList.remove("hideContent");
-      input.contentEditable = "true";
-    } else {
       checkBox.classList.add("hideContent");
       editButton.innerHTML = "Submit";
+      input.contentEditable = "true";
+    } else {
+      editButton.innerHTML = "Edit";
+      checkBox.classList.remove("hideContent");
       input.contentEditable = "false";
     }
   };
 
   remove = (e) => {
-    console.log(e);
+    const container = document.querySelector(".container");
     const uniqid = e.target.uniqid;
     console.log(uniqid);
     const itemContainer = document.getElementById("item" + uniqid);
@@ -58,7 +49,6 @@ class addEventListener {
   };
 
   complete = (e) => {
-    console.log(e);
     const uniqid = e.target.uniqid;
     console.log(uniqid);
     const input = document.getElementById("inputbox" + uniqid);
@@ -73,9 +63,10 @@ class addEventListener {
   };
 }
 
-class todoItem {
+class TodoItem {
   constructor(textInput) {
-    var uniqid = new Date().getTime();
+    const uniqid = new Date().getTime();
+    const container = document.querySelector(".container");
     this.input = document.createElement("div");
     this.input.setAttribute("contenteditable", "false");
     this.input.setAttribute("id", "inputbox" + uniqid);
@@ -85,7 +76,7 @@ class todoItem {
     this.input.classList.add("textarea");
 
     this.itemContainer = document.createElement("div");
-    this.itemContainer.classList.add("item");
+    this.itemContainer.classList.add("itemClass");
     this.itemContainer.setAttribute("id", "item" + uniqid);
     this.itemContainer.uniqid = uniqid;
 
@@ -93,19 +84,19 @@ class todoItem {
     this.editButton.setAttribute("id", "editButton" + uniqid);
     this.editButton.uniqid = uniqid;
     this.editButton.innerHTML = "Edit";
-    this.editButton.classList.add("editButton");
+    this.editButton.classList.add("editButtonClass");
 
     this.removeButton = document.createElement("button");
     this.removeButton.setAttribute("id", "removeButton" + uniqid);
     this.removeButton.uniqid = uniqid;
     this.removeButton.innerHTML = "Remove";
-    this.removeButton.classList.add("removeButton");
+    this.removeButton.classList.add("removeButtonClass");
 
     this.checkBox = document.createElement("input");
     this.checkBox.setAttribute("id", "checkBox" + uniqid);
     this.checkBox.uniqid = uniqid;
     this.checkBox.type = "checkbox";
-    this.checkBox.classList.add("checkBox");
+    this.checkBox.classList.add("checkBoxClass");
 
     this.itemContainer.appendChild(this.checkBox);
     this.itemContainer.appendChild(this.input);
@@ -115,16 +106,18 @@ class todoItem {
   }
 }
 
-class todoList {
+class TodoList {
   constructor() {
+    const addButton = document.querySelector(".addButton");
     addButton.addEventListener("click", this.addNewTodo);
-    new addEventListener();
+    new EventListener();
   }
   addNewTodo() {
+    const globalInput = document.getElementById("box");
     if (globalInput.value !== "") {
-      new todoItem(globalInput.value);
+      new TodoItem(globalInput.value);
       globalInput.value = "";
     }
   }
 }
-new todoList();
+new TodoList();
