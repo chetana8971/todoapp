@@ -24,7 +24,7 @@ class Model {
 
   // Initialize the edit function, when we click on editButton it enables to edit inputbox & editButton automatically change to submit at the same time checkbox
   // is disabled by using class hideContent.
-  editButton(uniqid, _temporaryTodoText) {
+  editButton(uniqid) {
     const input = document.getElementById("inputbox" + uniqid);
     const editButton = document.getElementById("editButton" + uniqid);
     const checkBox = document.getElementById("checkBox" + uniqid);
@@ -74,9 +74,6 @@ class View {
     this.todoList.classList.add("todoList");
     this.input.disabled = true;
     this.container.append(this.todoList);
-
-    this._temporaryTodoText = "";
-    this._initLocalListeners();
   }
 
   displayTodos(todos) {
@@ -121,7 +118,7 @@ class View {
     checkBox.type = "checkBox";
     checkBox.classList.add("checkBoxClass");
 
-    const li = document.createElement("li");
+    const li = document.createElement("list");
     li.id = "itemContainer" + uniqid;
     li.uniqid = todos.uniqid;
 
@@ -132,14 +129,6 @@ class View {
     this.todoList.append(li);
   }
 
-  _initLocalListeners() {
-    this.todoList.addEventListener("click", (event) => {
-      if (event.target.className == "editButtonClass") {
-        this._temporaryTodoText = event.target.innerText;
-      }
-    });
-  }
-
   bindaddNewTodo(handler) {
     this.addButton.addEventListener("click", (event) => {
       handler();
@@ -148,10 +137,9 @@ class View {
 
   bindeditButton(handler) {
     this.todoList.addEventListener("click", (event) => {
-      if (this._temporaryTodoText) {
+      if (event.target.className == "editButtonClass") {
         const uniqid = parseInt(event.target.uniqid);
-        handler(uniqid, this._temporaryTodoText);
-        this._temporaryTodoText = "";
+        handler(uniqid);
       }
     });
   }
@@ -200,8 +188,8 @@ class Controller {
     this.model.addNewTodo();
   };
 
-  handleeditButton = (_temporaryTodoText) => {
-    this.model.editButton(_temporaryTodoText);
+  handleeditButton = (uniqid) => {
+    this.model.editButton(uniqid);
   };
 
   handleremoveButton = (uniqid) => {
