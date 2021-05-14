@@ -100,7 +100,7 @@ list {
   text-decoration: line-through;
 }
 
-.editButtonClass {
+.editTodoClass {
   font-size: 1.3rem;
   margin: 0 0.5rem;
   font-family: "Hind" sans-serif;
@@ -113,7 +113,7 @@ list {
   right: 22%;
 }
 
-.removeButtonClass {
+.removeTodoClass {
   font-size: 1.3rem;
   margin: 0 0.5rem;
   font-family: "Hind" sans-serif;

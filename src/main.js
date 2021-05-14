@@ -10,10 +10,15 @@ class Model {
 
   //Initilize addNewTodo function here with new id.
   addNewTodo() {
-    const uniqid = new Date().getTime();
+    const uniqId = new Date().getTime();
     if (this.input.value !== "") {
       this.input.value;
-      this.todoList.push({ uniqid, value: this.input.value });
+      this.todoList.push({
+        id: uniqId,
+        value: this.input.value,
+        isComplete: false,
+        isEdit: false,
+      });
       this.input.value = "";
     }
     this._commit(this.todoList);
@@ -21,43 +26,36 @@ class Model {
   _commit(todos) {
     this.ontodoListChanged(todos);
   }
-
-  // Initialize the edit function, when we click on editButton it enables to edit inputbox & editButton automatically change to submit at the same time checkbox
-  // is disabled by using class hideContent.
-  editButton(uniqid) {
-    const input = document.getElementById("inputbox" + uniqid);
-    const editButton = document.getElementById("editButton" + uniqid);
-    const checkBox = document.getElementById("checkBox" + uniqid);
-
-    if (input.contentEditable == "false") {
-      checkBox.classList.add("hideContent");
-      editButton.innerHTML = "Submit";
-      input.contentEditable = "true";
-    } else {
-      editButton.innerHTML = "Edit";
-      checkBox.classList.remove("hideContent");
-      input.contentEditable = "false";
-    }
+  //Initilize editTodo Function here.
+  editTodo(id) {
+    this.todoList = this.todoList.map((todos) =>
+      todos.id === id
+        ? {
+            ...todos,
+            isEdit: !todos.isEdit,
+          }
+        : todos
+    );
+    this._commit(this.todoList);
   }
 
-  //Initilize the remove function where todos are removed from container
-  removeButton = (uniqid) => {
-    this.todoList = this.todoList.filter((todos) => todos.uniqid !== uniqid);
+  //Initilize the remove function where todos are removed from container.
+  removeTodo = (id) => {
+    this.todoList = this.todoList.filter((todos) => todos.id !== id);
     this._commit(this.todoList);
   };
 
-  //Complete Function describes when checkbox is checked the text in inputbox is striked & editButton is hidden at the same time by using class hideContent.
-  completeButton = (uniqid) => {
-    const input = document.getElementById("inputbox" + uniqid);
-    const editButton = document.getElementById("editButton" + uniqid);
-    const checkBox = document.getElementById("checkBox" + uniqid);
-
-    if (checkBox.checked) {
-      editButton.classList.add("hideContent");
-    } else {
-      editButton.classList.remove("hideContent");
-    }
-    input.style.textDecoration = checkBox.checked ? "line-through" : "none";
+  //Initilize CompleteTodo function.
+  completeTodo = (id) => {
+    this.todoList = this.todoList.map((todos) =>
+      todos.id === id
+        ? {
+            ...todos,
+            isComplete: !todos.isComplete,
+          }
+        : todos
+    );
+    this._commit(this.todoList);
   };
 }
 
@@ -85,47 +83,71 @@ class View {
     }
   }
 
-  //TodoItem  is used to create todoItem in DOM
+  //TodoItem  is used to create todoItem in DOM.
   createTodoItem(todos) {
-    const uniqid = todos.uniqid;
-    const inputbutton = document.createElement("div");
-    inputbutton.setAttribute("contenteditable", "false");
-    inputbutton.setAttribute("id", "inputbox" + uniqid);
-    inputbutton.value = todos.value;
-    inputbutton.classList.add("textContainer");
-    inputbutton.innerHTML = todos.value;
+    const uniqId = todos.id;
+    const isComplete = todos.isComplete;
+    const isEdit = todos.isEdit;
+    const inputText = document.createElement("div");
+    inputText.setAttribute("contenteditable", "false");
+    inputText.setAttribute("id", "inputbox" + uniqId);
+    inputText.value = todos.value;
+    inputText.classList.add("textContainer");
+    inputText.innerHTML = todos.value;
+    inputText.style.textDecoration = isComplete ? "line-through" : "none";
 
     const itemContainer = document.createElement("div");
     itemContainer.classList.add("itemClass");
-    itemContainer.setAttribute("id", "item" + uniqid);
-    itemContainer.uniqid = uniqid;
+    itemContainer.setAttribute("id", "item" + uniqId);
+    itemContainer.uniqId = uniqId;
 
-    const editButton = document.createElement("button");
-    editButton.setAttribute("id", "editButton" + uniqid);
-    editButton.uniqid = uniqid;
-    editButton.innerHTML = "Edit";
-    editButton.classList.add("editButtonClass");
+    const editTodo = document.createElement("button");
+    editTodo.setAttribute("id", "editTodo" + uniqId);
+    editTodo.uniqId = uniqId;
+    editTodo.innerHTML = "Edit";
+    editTodo.classList.add("editTodoClass");
 
-    const removeButton = document.createElement("button");
-    removeButton.setAttribute("id", "removeButton" + uniqid);
-    removeButton.uniqid = uniqid;
-    removeButton.innerHTML = "Remove";
-    removeButton.classList.add("removeButtonClass");
+    const removeTodo = document.createElement("button");
+    removeTodo.setAttribute("id", "removeTodo" + uniqId);
+    removeTodo.uniqId = uniqId;
+    removeTodo.innerHTML = "Remove";
+    removeTodo.classList.add("removeTodoClass");
 
     const checkBox = document.createElement("input");
-    checkBox.setAttribute("id", "checkBox" + uniqid);
-    checkBox.uniqid = uniqid;
+    checkBox.setAttribute("id", "checkBox" + uniqId);
+    checkBox.uniqId = uniqId;
     checkBox.type = "checkBox";
     checkBox.classList.add("checkBoxClass");
+    checkBox.checked = isComplete;
+
+    //Here check condition of edit function, when we click on editTodo it enables to edit inputbox & editTodo automatically change to submit at the same time
+    //checkbox is disabled by using class hideContent.
+    if (isEdit) {
+      checkBox.classList.add("hideContent");
+      editTodo.innerHTML = "Submit";
+      inputText.contentEditable = "true";
+    } else {
+      editTodo.innerHTML = "Edit";
+      checkBox.classList.remove("hideContent");
+      inputText.contentEditable = "false";
+    }
+
+    //Here check condition of Complete Function describes when checkbox is checked the text in inputbox is striked & editTodo is hidden at the same time by
+    // using class hideContent.
+    if (isComplete) {
+      editTodo.classList.add("hideContent");
+    } else {
+      editTodo.classList.remove("hideContent");
+    }
 
     const li = document.createElement("list");
-    li.id = "itemContainer" + uniqid;
-    li.uniqid = todos.uniqid;
+    li.id = "itemContainer" + uniqId;
+    li.uniqId = todos.id;
 
-    li.append(editButton);
-    li.append(removeButton);
+    li.append(editTodo);
+    li.append(removeTodo);
     li.append(checkBox);
-    li.append(inputbutton);
+    li.append(inputText);
     this.todoList.append(li);
   }
 
@@ -135,29 +157,29 @@ class View {
     });
   }
 
-  bindeditButton(handler) {
+  bindeditTodo(handler) {
     this.todoList.addEventListener("click", (event) => {
-      if (event.target.className == "editButtonClass") {
-        const uniqid = parseInt(event.target.uniqid);
-        handler(uniqid);
+      if (event.target.className == "editTodoClass") {
+        const uniqId = parseInt(event.target.uniqId);
+        handler(uniqId);
       }
     });
   }
 
-  bindremoveButton(handler) {
+  bindremoveTodo(handler) {
     this.todoList.addEventListener("click", (event) => {
-      if (event.target.className == "removeButtonClass") {
-        const uniqid = parseInt(event.target.uniqid);
-        handler(uniqid);
+      if (event.target.className == "removeTodoClass") {
+        const uniqId = parseInt(event.target.uniqId);
+        handler(uniqId);
       }
     });
   }
 
-  bindcompleteButton(handler) {
+  bindcompleteTodo(handler) {
     this.todoList.addEventListener("change", (event) => {
       if (event.target.className == "checkBoxClass") {
-        const uniqid = parseInt(event.target.uniqid);
-        handler(uniqid);
+        const uniqId = parseInt(event.target.uniqId);
+        handler(uniqId);
       }
     });
   }
@@ -173,9 +195,9 @@ class Controller {
     // Explicit this binding
     this.model.bindtodoListChanged(this.ontodoListChanged);
     this.view.bindaddNewTodo(this.handleaddNewTodo);
-    this.view.bindeditButton(this.handleeditButton);
-    this.view.bindremoveButton(this.handleremoveButton);
-    this.view.bindcompleteButton(this.handlecompleteButton);
+    this.view.bindeditTodo(this.handleeditTodo);
+    this.view.bindremoveTodo(this.handleremoveTodo);
+    this.view.bindcompleteTodo(this.handlecompleteTodo);
 
     // Display initial todos
     this.ontodoListChanged(this.model.todoList);
@@ -188,16 +210,16 @@ class Controller {
     this.model.addNewTodo();
   };
 
-  handleeditButton = (uniqid) => {
-    this.model.editButton(uniqid);
+  handleeditTodo = (uniqId) => {
+    this.model.editTodo(uniqId);
   };
 
-  handleremoveButton = (uniqid) => {
-    this.model.removeButton(uniqid);
+  handleremoveTodo = (uniqId) => {
+    this.model.removeTodo(uniqId);
   };
 
-  handlecompleteButton = (uniqid) => {
-    this.model.completeButton(uniqid);
+  handlecompleteTodo = (uniqId) => {
+    this.model.completeTodo(uniqId);
   };
 }
 const app = new Controller(new Model(), new View());
