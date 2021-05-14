@@ -39,7 +39,7 @@ class Model {
     this._commit(this.todoList);
   }
 
-  //Initilize the remove function where todos are removed from container.
+  //Initilize the removeTodo function where todos are removed from container.
   removeTodo = (id) => {
     this.todoList = this.todoList.filter((todos) => todos.id !== id);
     this._commit(this.todoList);
@@ -120,7 +120,7 @@ class View {
     checkBox.classList.add("checkBoxClass");
     checkBox.checked = isComplete;
 
-    //Here check condition of edit function, when we click on editTodo it enables to edit inputbox & editTodo automatically change to submit at the same time
+    //Here check condition of edit function, when we click on edit it enable us to edit inputbox & edit automatically change to submit at the same time
     //checkbox is disabled by using class hideContent.
     if (isEdit) {
       checkBox.classList.add("hideContent");
