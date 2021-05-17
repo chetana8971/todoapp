@@ -5,10 +5,10 @@ class EventListener {
       "click",
       (e) => {
         switch (e.target.classList[0]) {
-          case "editButtonClass":
+          case "editTodoClass":
             this.edit(e);
             break;
-          case "removeButtonClass":
+          case "removeTodoClass":
             this.remove(e);
             break;
           case "checkBoxClass":
@@ -19,20 +19,20 @@ class EventListener {
       false
     );
   }
-  // Initialize the edit function, when we click on editButton it enables to edit inputbox & editButton automatically change to submit at the same time checkbox
+  // Initialize the edit function, when we click on edit it enables to edit inputbox & edit is automatically change to submit at the same time checkbox
   // is disabled by using class hideContent.
   edit = (e) => {
-    const uniqid = e.target.uniqid;
-    const input = document.getElementById("inputbox" + uniqid);
-    const checkBox = document.getElementById("checkBox" + uniqid);
-    const editButton = document.getElementById("editButton" + uniqid);
+    const uniqId = e.target.uniqId;
+    const input = document.getElementById("inputbox" + uniqId);
+    const checkBox = document.getElementById("checkBox" + uniqId);
+    const editTodo = document.getElementById("editTodo" + uniqId);
 
     if (input.contentEditable == "false") {
       checkBox.classList.add("hideContent");
-      editButton.innerHTML = "Submit";
+      editTodo.innerHTML = "Submit";
       input.contentEditable = "true";
     } else {
-      editButton.innerHTML = "Edit";
+      editTodo.innerHTML = "Edit";
       checkBox.classList.remove("hideContent");
       input.contentEditable = "false";
     }
@@ -40,21 +40,21 @@ class EventListener {
   //Initilize the remove function where todos are removed from container
   remove = (e) => {
     const container = document.querySelector(".container");
-    const uniqid = e.target.uniqid;
-    const itemContainer = document.getElementById("item" + uniqid);
+    const uniqId = e.target.uniqId;
+    const itemContainer = document.getElementById("item" + uniqId);
     container.removeChild(itemContainer);
   };
 
-  //Complete Function describes when checkbox is checked the text in inputbox is striked & editButton is hidden at the same time by using class hideContent.
+  //Complete Function describes when checkbox is checked the text in inputbox is striked & edit is hidden at the same time by using class hideContent.
   complete = (e) => {
-    const uniqid = e.target.uniqid;
-    const input = document.getElementById("inputbox" + uniqid);
-    const editButton = document.getElementById("editButton" + uniqid);
-    const checkBox = document.getElementById("checkBox" + uniqid);
+    const uniqId = e.target.uniqId;
+    const input = document.getElementById("inputbox" + uniqId);
+    const editTodo = document.getElementById("editTodo" + uniqId);
+    const checkBox = document.getElementById("checkBox" + uniqId);
     if (checkBox.checked) {
-      editButton.classList.add("hideContent");
+      editTodo.classList.add("hideContent");
     } else {
-      editButton.classList.remove("hideContent");
+      editTodo.classList.remove("hideContent");
     }
     input.style.textDecoration = checkBox.checked ? "line-through" : "none";
   };
@@ -62,11 +62,11 @@ class EventListener {
 //TodoItem class is used to create todoItem in DOM
 class TodoItem {
   constructor(textInput) {
-    const uniqid = new Date().getTime();
+    const uniqId = new Date().getTime();
     const container = document.querySelector(".container");
     this.input = document.createElement("div");
     this.input.setAttribute("contenteditable", "false");
-    this.input.setAttribute("id", "inputbox" + uniqid);
+    this.input.setAttribute("id", "inputbox" + uniqId);
     this.input.setAttribute("disabled", "true");
 
     this.input.innerHTML = textInput;
@@ -74,31 +74,31 @@ class TodoItem {
 
     this.itemContainer = document.createElement("div");
     this.itemContainer.classList.add("itemClass");
-    this.itemContainer.setAttribute("id", "item" + uniqid);
-    this.itemContainer.uniqid = uniqid;
+    this.itemContainer.setAttribute("id", "item" + uniqId);
+    this.itemContainer.uniqId = uniqId;
 
-    this.editButton = document.createElement("button");
-    this.editButton.setAttribute("id", "editButton" + uniqid);
-    this.editButton.uniqid = uniqid;
-    this.editButton.innerHTML = "Edit";
-    this.editButton.classList.add("editButtonClass");
+    this.editTodo = document.createElement("button");
+    this.editTodo.setAttribute("id", "editTodo" + uniqId);
+    this.editTodo.uniqId = uniqId;
+    this.editTodo.innerHTML = "Edit";
+    this.editTodo.classList.add("editTodoClass");
 
-    this.removeButton = document.createElement("button");
-    this.removeButton.setAttribute("id", "removeButton" + uniqid);
-    this.removeButton.uniqid = uniqid;
-    this.removeButton.innerHTML = "Remove";
-    this.removeButton.classList.add("removeButtonClass");
+    this.removeTodo = document.createElement("button");
+    this.removeTodo.setAttribute("id", "removeTodo" + uniqId);
+    this.removeTodo.uniqId = uniqId;
+    this.removeTodo.innerHTML = "Remove";
+    this.removeTodo.classList.add("removeTodoClass");
 
     this.checkBox = document.createElement("input");
-    this.checkBox.setAttribute("id", "checkBox" + uniqid);
-    this.checkBox.uniqid = uniqid;
+    this.checkBox.setAttribute("id", "checkBox" + uniqId);
+    this.checkBox.uniqId = uniqId;
     this.checkBox.type = "checkbox";
     this.checkBox.classList.add("checkBoxClass");
 
     this.itemContainer.appendChild(this.checkBox);
     this.itemContainer.appendChild(this.input);
-    this.itemContainer.appendChild(this.editButton);
-    this.itemContainer.appendChild(this.removeButton);
+    this.itemContainer.appendChild(this.editTodo);
+    this.itemContainer.appendChild(this.removeTodo);
     container.appendChild(this.itemContainer);
   }
 }
