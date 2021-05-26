@@ -1,0 +1,56 @@
+.editButton {
+  font-size: 1.3rem;
+  margin: 0 0.5rem;
+  background: none;
+  outline: none;
+  color: #0080ff;
+  border: none;
+  width: 4rem;
+  position: absolute;
+  left: 57%;
+}
+.removeButton {
+  font-size: 1.3rem;
+  margin: 0 0.5rem;
+  background: none;
+  outline: none;
+  color: red;
+  border: none;
+  width: 4rem;
+  position: absolute;
+  left:62%;
+}
+
+.checkBox {
+  width: 9%;
+  height: 20px;
+  margin-top: 0.2rem;
+  position: absolute;
+  left: 31%;
+}
+
+li {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  list-style: none;
+  width: 33rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+  background-color: #e8eaed;
+}
+
+.listText {
+  display: inline-block;
+  width: 250px;
+  min-height: 40px;
+  border: 2px solid rgba(63, 63, 63, 1);
+  position: relative;
+  right: 12%;
+}
+.hideContent {
+    display: none;
+  }
