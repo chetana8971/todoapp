@@ -1,19 +1,14 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { List } from "../List/List";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
 import './App.css';
-import { Checkbox } from "../Checkbox/Checkbox";
-import classNames from 'classnames';
-
 
 export default class App extends Component {
   state = {
-    todos: [
-    //   { id: 1, name: "Read book", done: true },
-    //   { id: 2, name: "Write letter", done: false },
-    //   { id: 3, name: "Edit cover", done: false }
-    ],
+    todos: [],
     todoText: ""
   };
 
@@ -23,34 +18,34 @@ export default class App extends Component {
 
   onSubmitTodo = () => {
     this.setState(({ todos, todoText }) => ({
-      todos: [...todos, { id: todos.length + 1, name: todoText, done: false }],
+      todos: [...todos, { id: todos.length + 1, name: todoText, done: false , isEdit: false}],
       todoText: ""
-    }));
+     }));
   };
 
-  onChangeBox = item => {
+    onChangeBox = item => {
     this.setState(({ todos }) => ({
-      todos: todos.map(el =>
-        el.id === item.id ? { ...el, done: !el.done } : el
+      todos: todos.map(todoitem =>
+        todoitem.id === item.id ? { ...todoitem, done: !todoitem.done } : todoitem
       )
     }));
   };
 
   handleDel = item => {
     this.setState(({ todos }) => ({
-      todos: todos.filter(el => el.id !== item.id)
+      todos: todos.filter(todoitem => todoitem.id !== item.id)
     }));
   };
 
   handleEdit = item => {
     this.setState(({ todos }) => ({
-      todos: this.todos.map(el =>
-      el.id === item.id
+      todos: todos.map(todoitem =>
+      todoitem.id === item.id
         ? {
-            ...todos,
-            isEdit: !todos.isEdit,
+            ...todoitem,
+            isEdit: !todoitem.isEdit,
           }
-        : todos
+        : todoitem
       )}))
   }
 
@@ -61,7 +56,10 @@ export default class App extends Component {
       <>
         <h2>Todo</h2>
         <Input value={todoText} onChange={this.onChangeInput} className= {'inputBox'} /> 
-        <Button onClick={this.onSubmitTodo} customClassName= {'submit'}>Add</Button>
+        <div>
+        
+        </div>
+        <Button onClick={this.onSubmitTodo} customClassName= {'submit'}><FontAwesomeIcon icon={faPlus} /></Button>
         <List
           list={todos}
           onChangeBox={this.onChangeBox}

@@ -8,6 +8,7 @@
   width: 4rem;
   position: absolute;
   left: 57%;
+
 }
 .removeButton {
   font-size: 1.3rem;
@@ -34,7 +35,7 @@ li {
   text-align: center;
   justify-content: center;
   list-style: none;
-  width: 33rem;
+  width: 35rem;
   margin-right: auto;
   margin-left: auto;
   padding: 1rem;

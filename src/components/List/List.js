@@ -11,21 +11,20 @@ export const List = ({ list, onChangeBox, handleDel, handleEdit }) => (
       <li
         key={item.id}
         >
-       
+       {console.log(item)}
         <Checkbox
-        ClassName="checkBox"
           onClick={() => onChangeBox(item)}
           defaultChecked={item.done}
-         
-          className={ Checkbox({
-            'hideContent': 'isEdit'
-          })} />
+          customClassName={ classNames( "checkBox",{
+          'hideContent': item.isEdit
+          })} 
+          />
         {" "}
-        <div contentEditable = {item.done ? 'true' : 'false'} className="listText" style={{ textDecoration: item.done ? "line-through" : null }}> 
+        <div contentEditable = {item.isEdit ? 'true' : 'false'}  className="listText" style={{ textDecoration: item.done ? "line-through" : null }}> 
           {item.name}
         </div> 
-      <Button onClick={() => handleEdit(item)} customClassName= {'editButton'}> {isEdit ?  "Submit" : "Edit"} </Button>
-        
+      <Button onClick={() => handleEdit(item)} customClassName= {classNames('editButton',{'hideContent': item.done})}> {item.isEdit ?  "Submit" : "Edit"}
+      </Button>
       <Button onClick={() => handleDel(item)} customClassName= {'removeButton'}>Remove</Button>
          </li>
     ))}

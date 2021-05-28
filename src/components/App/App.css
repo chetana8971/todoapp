@@ -8,8 +8,6 @@ h2{
   font-family: Arial, Helvetica, sans-serif;
   margin-bottom: 1rem;
 }
-
-
 .submit {
   height: 3rem;
   width: 3rem;
@@ -21,7 +19,7 @@ h2{
   background-color: #0080ff;
 
   display: block;
-  margin-left: 68%;
+  margin-left: 67%;
   margin-top: -57px;
 }
 .inputBox{
